@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Image Encryption Service</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Drag & Drop preview styling */
+        .drop-zone {
+            border: 2px dashed #007BFF;
+            border-radius: 6px;
+            padding: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 14px;
+            position: relative;
+        }
+        .drop-zone.dragover {
+            background-color: #e6f0ff;
+        }
+        .drop-zone p {
+            margin: 0;
+            font-weight: bold;
+            color: #007BFF;
+        }
+        #image-preview {
+            margin-top: 10px;
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            display: none;
+        }
+        .buttons-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .buttons-row button {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-container">
+        <h2>Image Encryption Service</h2>
+        <form method="POST" enctype="multipart/form-data" id="imageForm">
+            <label for="image">Select Image or Drag & Drop Here:</label>
+
+            <div id="drop-zone" class="drop-zone">
+                <p>Drag & Drop image here or click to browse</p>
+                <input type="file" name="image" id="image" class="file-input" accept="image/*" required style="opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;cursor:pointer;">
+            </div>
+
+            <img id="image-preview" alt="Image Preview">
+
+            <label for="algorithm">Encryption Algorithm:</label>
+            <select id="algorithm" name="algorithm" required>
+                <option value="xor">XOR</option>
+                <option value="caesar">Caesar Cipher</option>
+            </select>
+
+            <label for="action">Operation:</label>
+            <select id="action" name="action" required>
+                <option value="encrypt">Encrypt</option>
+                <option value="decrypt">Decrypt</option>
+            </select>
+
+            <label for="key">Key (0-255):</label>
+            <input id="key" type="number" name="key" min="0" max="255" placeholder="Enter key" required>
+
+            <div class="buttons-row">
+                <input type="submit" value="Process Image" class="submit-btn">
+                <button type="button" id="resetBtn" class="submit-btn" style="background-color:#6c757d;">Reset</button>
+            </div>
+            <div class="controls-group">
+   
+</div>
+        </form>
+
+        {% if result_filename %}
+        <div class="result">
+            <h3>Result Ready:</h3>
+            <a href="{{ url_for('download_file', filename=result_filename) }}">Download Result Image</a><br>
+            <img src="{{ url_for('download_file', filename=result_filename) }}" alt="Result Image">
+        </div>
+        {% endif %}
+    </div>
+
+<script>
+    const dropZone = document.getElementById('drop-zone');
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('image-preview');
+    const resetBtn = document.getElementById('resetBtn');
+    const form = document.getElementById('imageForm');
+
+    // Show preview when image selected
+    imageInput.addEventListener('change', () => {
+        const file = imageInput.files[0];
+        if(!file) {
+            imagePreview.style.display = 'none';
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = e => {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Drag & drop functionality
+    dropZone.addEventListener('dragover', e => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
+    dropZone.addEventListener('dragleave', e => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+    });
+    dropZone.addEventListener('drop', e => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        if(e.dataTransfer.files.length) {
+            imageInput.files = e.dataTransfer.files;
+            imageInput.dispatchEvent(new Event('change'));
+        }
+    });
+
+    // Reset form and preview
+    resetBtn.addEventListener('click', () => {
+        form.reset();
+        imagePreview.style.display = 'none';
+    });
+</script>
+</body>
+</html>

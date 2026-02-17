@@ -1,0 +1,168 @@
+/* --- Global Styles & Layout --- */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f9; /* Light page background */
+    color: #343a40; /* Dark text for readability */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* Center the container on the page */
+}
+
+.upload-container {
+    max-width: 550px; /* Optimal width for a utility panel */
+    width: 100%;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Subtle lift */
+}
+
+h2 {
+    font-size: 1.8em;
+    color: #007bff; /* Primary color for header */
+    margin-top: 0;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef; /* Clean separator */
+}
+
+/* --- Form and Labels --- */
+
+form label {
+    display: block; /* Make labels take full width */
+    font-weight: 600;
+    color: #495057;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+/* Grouping the Controls (Algorithm, Operation, Key) */
+.controls-group {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.controls-group > div {
+    flex: 1; /* Distribute space evenly among controls */
+    display: flex;
+    flex-direction: column; /* Stack label and input vertically */
+}
+
+/* Apply professional styling to all form inputs/selects */
+#algorithm, #action, #key {
+    width: 100%; /* Make them fill their flex container */
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1em;
+    background-color: #f8f9fa; /* Light background for inputs */
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box; /* Include padding/border in element's total width/height */
+}
+
+#algorithm:focus, #action:focus, #key:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Subtle blue glow on focus */
+    outline: none;
+}
+
+/* --- Drop Zone Override (Refining the inline style) --- */
+
+.drop-zone {
+    /* The inline styles were good, just ensure a good margin below */
+    margin-bottom: 20px !important; 
+}
+
+/* --- Buttons --- */
+
+.buttons-row {
+    margin-top: 30px;
+    /* Already has display: flex from inline style */
+}
+
+.submit-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.05em;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+input[type="submit"].submit-btn {
+    background-color: #28a745; /* Green for main action (Process) */
+    color: white;
+}
+
+input[type="submit"].submit-btn:hover {
+    background-color: #1e7e34;
+    transform: translateY(-1px); /* Little lift effect */
+}
+
+#resetBtn {
+    background-color: #6c757d; /* Gray for secondary action (Reset) */
+    color: white;
+}
+
+#resetBtn:hover {
+    background-color: #5a6268;
+}
+
+
+/* --- Results Section --- */
+
+.result {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+.result h3 {
+    font-size: 1.3em;
+    color: #343a40;
+    margin-bottom: 10px;
+}
+
+.result a {
+    color: #007bff;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.result a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+.result img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Media Query for Smaller Screens --- */
+@media (max-width: 500px) {
+    .controls-group {
+        flex-direction: column; /* Stack controls vertically on small screens */
+        gap: 10px;
+    }
+
+    .buttons-row {
+        flex-direction: column; /* Stack buttons vertically */
+    }
+
+    .buttons-row button,
+    .buttons-row input[type="submit"] {
+        width: 100%;
+        margin-top: 5px;
+    }
+}
